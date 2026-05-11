@@ -43,7 +43,7 @@ pip install psd-tools Pillow requests
     "size": "1024x1024"
   }
   ```
-- **代理**（中国境内需要）：设置环境变量 `HTTPS_PROXY=http://your-proxy:port`，代码会自动读取
+- **代理**：302.ai 国内直连无需代理。如需代理，设置环境变量 `HTTPS_PROXY=http://your-proxy:port` 即可自动生效
 
 ## 标准工作流（3步）
 

@@ -43,7 +43,7 @@ pip install psd-tools Pillow requests
     "size": "1024x1024"
   }
   ```
-- **代理**（中国境内需要）：`http://127.0.0.1:7890`
+- **代理**（中国境内需要）：设置环境变量 `HTTPS_PROXY=http://your-proxy:port`，代码会自动读取
 
 ## 标准工作流（3步）
 
@@ -55,7 +55,10 @@ from PIL import Image
 from io import BytesIO
 
 KEY = 'YOUR_302AI_KEY'
-PROXIES = {'https': 'http://127.0.0.1:7890', 'http': 'http://127.0.0.1:7890'}
+# 代理：从环境变量读取，不要硬编码
+import os
+proxy = os.environ.get('HTTPS_PROXY') or os.environ.get('https_proxy')
+PROXIES = {'https': proxy, 'http': proxy} if proxy else None
 DIR = '/tmp/furniture_psd'
 os.makedirs(DIR, exist_ok=True)
 
@@ -148,6 +151,24 @@ print(f'✅ furniture.psd {os.path.getsize(f"{DIR}/furniture.psd")//1024}KB')
 | `sofa_y` | 沙发距底部距离 | 60px | 0-200px |
 | `0.45` | 文字占画面宽度比例 | 45% | 20%-60% |
 | `text_x/text_y` | 文字位置 | 右下角 | 自由调整 |
+
+## Skill 安装方式
+
+已发布到 GitHub：
+```bash
+hermes skills install https://github.com/Mark7766/furniture-psd-generator
+```
+
+> **注意**：`hermes skills publish --repo` 命令需要 GitHub token 有 fork 权限，通常会报错。
+> 正确方式是手动 git push：
+> ```bash
+> git clone https://github.com/YOUR/repo.git
+> cp SKILL.md repo/ && cd repo
+> git add . && git commit -m "feat: add skill"
+> GIT_SSL_NO_VERIFY=1 git push https://TOKEN@github.com/YOUR/repo.git main
+> ```
+
+---
 
 ## 常见问题
 
